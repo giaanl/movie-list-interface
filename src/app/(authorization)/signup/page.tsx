@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { SignUpInputs } from "@/types/SignUp";
+import { SignUpInputs } from "@/types/Inputs";
 import Link from "next/link";
 import { toast } from "react-toastify";
 
@@ -33,8 +33,8 @@ export default function SignUp() {
 
   return (
     <>
-      <div className="flex min-h-fit flex-col justify-center overflow-hidden bg-white">
-        <div className="m-auto w-fit rounded-md bg-white p-6  lg:max-w-xl">
+      <div className="flex min-h-fit flex-col justify-center overflow-hidden">
+        <div className="m-auto w-fit rounded-md p-6 lg:max-w-xl">
           <h1 className="text-center text-2xl font-medium text-black">
             Cadastro
           </h1>
@@ -78,7 +78,8 @@ export default function SignUp() {
             <div className="mt-6">
               <button
                 type="submit"
-                className="w-full transform rounded-sm bg-blue-500 px-4 py-2 tracking-wide text-white transition-colors duration-200 hover:bg-blue-600 focus:bg-blue-600 focus:outline-none">
+                className="w-full transform rounded-sm bg-blue-500 px-4 py-2 tracking-wide text-white transition-colors duration-200 hover:bg-blue-600 focus:bg-blue-600 focus:outline-none"
+              >
                 Cadastrar-se
               </button>
             </div>
