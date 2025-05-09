@@ -1,11 +1,14 @@
 "use client";
 
+import { UsersService } from "@/services/UsersService";
 import { LoginInputs } from "@/types/Inputs";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-toastify";
 
 export default function Login() {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -14,9 +17,10 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<LoginInputs> = async (data: any) => {
     try {
+      await UsersService.login(data)
       toast.success("Login realizado com sucesso!");
+      router.push("/");
     } catch (error: any) {
-      console.log(error);
       toast.error("Erro ao fazer login!");
     }
   };
