@@ -2,9 +2,16 @@
 
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { SignUpInputs } from "@/types/Inputs";
 import Link from "next/link";
 import { toast } from "react-toastify";
+import { UsersService } from "@/services/UsersService";
+
+interface SignUpInputs {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 export default function SignUp() {
   const router = useRouter();
@@ -12,13 +19,16 @@ export default function SignUp() {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<SignUpInputs>();
 
-  const onSubmit: SubmitHandler<SignUpInputs> = async (data: any) => {
+  const onSubmit: SubmitHandler<SignUpInputs> = async (data: SignUpInputs) => {
     try {
+      console.log(data)
+      await UsersService.registerUser(data);
       toast.success("Cadastro realizado com sucesso!");
       router.push("/login");
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
       toast.error("Erro ao cadastrar usuário!");
     }
@@ -30,6 +40,8 @@ export default function SignUp() {
       handleSubmit(onSubmit);
     }
   };
+
+  const password = watch("password");
 
   return (
     <>
@@ -47,8 +59,8 @@ export default function SignUp() {
                 {...register("name", { required: true })}
                 onKeyDown={handleKeyPress}
               />
-              {errors.password && (
-                <span className="mt-2 text-red-500">Campo Obrigatório</span>
+              {errors.name && (
+                <span className="mt-2 text-red-500">{errors.name.message}</span>
               )}
             </div>
             <div className="mb-4">
@@ -59,7 +71,9 @@ export default function SignUp() {
                 {...register("email", { required: true })}
               />
               {errors.email && (
-                <span className="mt-2 text-red-500">Campo Obrigatório</span>
+                <span className="mt-2 text-red-500">
+                  {errors.email.message}
+                </span>
               )}
             </div>
             <div className="mb-4">
@@ -71,7 +85,28 @@ export default function SignUp() {
                 onKeyDown={handleKeyPress}
               />
               {errors.password && (
-                <span className="mt-2 text-red-500">Campo Obrigatório</span>
+                <span className="mt-2 text-red-500">
+                  {errors.password.message}
+                </span>
+              )}
+            </div>
+
+            <div className="mb-4">
+              <input
+                type="password"
+                placeholder="Confirme a sua senha"
+                className="mt-2 block w-full rounded-md border bg-white px-4 py-2 text-gray-500 focus:border-gray-400 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
+                {...register("confirmPassword", {
+                  required: true,
+                  validate: (value) =>
+                    value === password || "As senhas não coincidem",
+                })}
+                onKeyDown={handleKeyPress}
+              />
+              {errors.confirmPassword && (
+                <span className="mt-2 text-red-500">
+                  {errors.confirmPassword.message}
+                </span>
               )}
             </div>
 
