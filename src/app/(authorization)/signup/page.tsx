@@ -5,13 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { UsersService } from "@/services/UsersService";
-
-interface SignUpInputs {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+import { SignUpInputs } from "@/types/Inputs";
 
 export default function SignUp() {
   const router = useRouter();

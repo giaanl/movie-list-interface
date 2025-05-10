@@ -1,10 +1,11 @@
-export type SignUpInputs = {
-    email: string;
-    password: string;
-    name: string;
+export interface SignUpInputs {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 }
 
 export type LoginInputs = {
-    email: string;
-    password: string;
-}
+  email: string;
+  password: string;
+};

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-toastify";
+import { setCookie } from "cookies-next";
 
 export default function Login() {
   const router = useRouter();
@@ -17,9 +18,13 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<LoginInputs> = async (data: any) => {
     try {
-      await UsersService.login(data)
+      const request = await UsersService.login(data);
+      console.log(request)
       toast.success("Login realizado com sucesso!");
-      router.push("/");
+
+      setCookie("MOVIE-LIST::TOKEN", request.data.access_token);
+      setCookie("MOVIE-LIST::USER", JSON.stringify(request.data.user));
+      router.refresh();
     } catch (error: any) {
       toast.error("Erro ao fazer login!");
     }
