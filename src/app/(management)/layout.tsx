@@ -1,4 +1,4 @@
-export default function AuthorizationLayout({
+export default function managementLayout({
   children,
 }: {
   children: React.ReactNode;

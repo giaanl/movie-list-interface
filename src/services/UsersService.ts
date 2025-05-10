@@ -5,8 +5,6 @@ import { LoginDto } from "@/dtos/LoginDto";
 
 export const UsersService = {
   registerUser: async (params: RegisterUserDto) => {
-    console.log(params);
-    console.log(API_BASE_URL);
     return axios({
       url: `${API_BASE_URL}/authentication/register`,
       data: params,
