@@ -1,7 +1,6 @@
 import { API_BASE_URL } from "@/shared/Config";
-import axios from "axios";
 import { cookies } from "next/headers";
-
+import { request } from "./requestService";
 export const AuthService = {
   getToken: async () => {
     const nextCookies = await cookies();
@@ -10,9 +9,12 @@ export const AuthService = {
   },
 
   validToken: async (token: string) => {
-    return axios({
-      url: `${API_BASE_URL}/authentication/token-valid`,
-      method: "get",
+    if (!token) {
+      throw new Error("Token não encontrado");
+    }
+
+    return request(`${API_BASE_URL}/authentication/token-valid`, {
+      method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
       },

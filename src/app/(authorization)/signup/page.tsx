@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
 import { toast } from "react-toastify";
@@ -8,7 +8,6 @@ import { UsersService } from "@/services/UsersService";
 import { SignUpInputs } from "@/types/Inputs";
 
 export default function SignUp() {
-  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -18,10 +17,9 @@ export default function SignUp() {
 
   const onSubmit: SubmitHandler<SignUpInputs> = async (data: SignUpInputs) => {
     try {
-      console.log(data)
       await UsersService.registerUser(data);
       toast.success("Cadastro realizado com sucesso!");
-      router.push("/login");
+      redirect("/login");
     } catch (error) {
       console.log(error);
       toast.error("Erro ao cadastrar usuário!");

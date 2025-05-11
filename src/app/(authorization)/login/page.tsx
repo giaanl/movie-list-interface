@@ -18,12 +18,13 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<LoginInputs> = async (data: any) => {
     try {
-      const request = await UsersService.login(data);
+      const request: any = await UsersService.login(data);
+
       console.log(request)
       toast.success("Login realizado com sucesso!");
 
-      setCookie("MOVIE-LIST::TOKEN", request.data.access_token);
-      setCookie("MOVIE-LIST::USER", JSON.stringify(request.data.user));
+      setCookie("MOVIE-LIST::TOKEN", request.access_token);
+      setCookie("MOVIE-LIST::USER", JSON.stringify(request.user));
       router.refresh();
     } catch (error: any) {
       toast.error("Erro ao fazer login!");
