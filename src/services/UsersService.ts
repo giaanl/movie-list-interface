@@ -1,22 +1,20 @@
 import { API_BASE_URL } from "@/shared/Config";
 import { RegisterUserDto } from "@/dtos/RegisterUser";
-import axios from "axios";
 import { LoginDto } from "@/dtos/LoginDto";
+import { request } from "./requestService";
 
 export const UsersService = {
   registerUser: async (params: RegisterUserDto) => {
-    return axios({
-      url: `${API_BASE_URL}/authentication/register`,
-      data: params,
+    return request(`${API_BASE_URL}/authentication/register`, {
       method: "POST",
+      body: JSON.stringify(params),
     });
   },
 
   login: async (params: LoginDto) => {
-    return axios({
-      url: `${API_BASE_URL}/authentication/login`,
-      data: params,
+    return request(`${API_BASE_URL}/authentication/login`, {
       method: "POST",
+      body: JSON.stringify(params),
     });
   },
 };
