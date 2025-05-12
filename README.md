@@ -11,7 +11,7 @@ Clone o projeto e acesse a pasta do mesmo.
 
 ```bash
 $ git clone https://github.com/giaanl/movie-list-interface.git
-$ cd teddy-case-frontend
+$ cd movie-list-interface
 ```
 
 Para iniciá-lo, siga os passos abaixo:
