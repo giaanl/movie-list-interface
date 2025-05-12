@@ -24,6 +24,8 @@ import {
   ChevronsRight,
   Pencil,
   Eye,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { MoviesService } from "@/services/MoviesService";
 
@@ -37,8 +39,22 @@ export default function List() {
   const [filters, setFilters] = useState<MovieFilters>({});
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const itemsPerPage = 10;
   const [movies, setMovies] = useState<Movie[]>([]);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' || 'light';
+    setTheme(savedTheme);
+    document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+    document.documentElement.classList.toggle('dark', newTheme === 'dark');
+  };
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -172,12 +188,25 @@ export default function List() {
 
   return (
     <>
-      <h1 className="text-center text-2xl font-medium text-black mb-6">
-        Listagem de Filmes
-      </h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-center text-2xl font-medium text-black dark:text-white">
+          Listagem de Filmes
+        </h1>
+        <Button
+          variant="outline"
+          onClick={toggleTheme}
+          className="w-10 h-10 p-0"
+        >
+          {theme === 'light' ? (
+            <Moon className="h-5 w-5" />
+          ) : (
+            <Sun className="h-5 w-5" />
+          )}
+        </Button>
+      </div>
       <div className="flex flex-col sm:flex-row gap-4 mb-6">
         <Button
-          className="bg-blue-500 hover:bg-blue-600 focus:bg-blue-600 focus:outline-none w-full sm:w-auto"
+          className="bg-blue-500 hover:bg-blue-600 focus:bg-blue-600 focus:outline-none w-full sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700"
           onClick={() => setIsModalOpen(true)}
         >
           Cadastrar Filme
@@ -185,7 +214,7 @@ export default function List() {
         <Button
           variant="outline"
           onClick={() => setIsFilterModalOpen(true)}
-          className="w-full sm:w-auto"
+          className="w-full sm:w-auto dark:border-gray-600 dark:hover:bg-gray-800"
         >
           Filtrar Filmes
         </Button>
@@ -197,61 +226,61 @@ export default function List() {
           placeholder="Buscar por título..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full max-w-md"
+          className="w-full max-w-md dark:bg-gray-800 dark:border-gray-600 dark:text-white"
         />
       </div>
 
       {movies.length > 0 ? (
-        <div className="overflow-x-auto rounded-lg border">
+        <div className="overflow-x-auto rounded-lg border dark:border-gray-600">
           <Table>
             <TableHeader>
-            <TableRow>
-              <TableHead className="w-[40%]">Título</TableHead>
-              <TableHead className="w-[30%]">Lançamento</TableHead>
-              <TableHead className="w-[20%]">Gênero</TableHead>
-              <TableHead className="w-[20%]">Duração</TableHead>
-              <TableHead className="w-[10%] text-center">Ações</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {paginatedMovies.map((movie) => (
-              <TableRow key={movie.id}>
-                <TableCell className="font-medium">{movie.title}</TableCell>
-                <TableCell>
-                  {movie.releaseDate
-                    ? new Date(movie.releaseDate).toLocaleDateString("pt-BR")
-                    : "-"}
-                </TableCell>
-                <TableCell>{movie.genre || "-"}</TableCell>
-                <TableCell>{movie.duration || "-"}</TableCell>
-                <TableCell className="text-center">
-                  <div className="flex justify-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleEdit(movie)}
-                      className="hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white focus:outline-none"
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleViewDetails(movie)}
-                      className="hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white focus:outline-none"
-                    >
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </TableCell>
+              <TableRow className="dark:border-gray-600">
+                <TableHead className="w-[40%] dark:text-gray-200">Título</TableHead>
+                <TableHead className="w-[30%] dark:text-gray-200">Lançamento</TableHead>
+                <TableHead className="w-[20%] dark:text-gray-200">Gênero</TableHead>
+                <TableHead className="w-[20%] dark:text-gray-200">Duração</TableHead>
+                <TableHead className="w-[10%] text-center dark:text-gray-200">Ações</TableHead>
               </TableRow>
-            ))}
+            </TableHeader>
+            <TableBody>
+              {paginatedMovies.map((movie) => (
+                <TableRow key={movie.id} className="dark:border-gray-600">
+                  <TableCell className="font-medium dark:text-gray-200">{movie.title}</TableCell>
+                  <TableCell className="dark:text-gray-200">
+                    {movie.releaseDate
+                      ? new Date(movie.releaseDate).toLocaleDateString("pt-BR")
+                      : "-"}
+                  </TableCell>
+                  <TableCell className="dark:text-gray-200">{movie.genre || "-"}</TableCell>
+                  <TableCell className="dark:text-gray-200">{movie.duration || "-"}</TableCell>
+                  <TableCell className="text-center">
+                    <div className="flex justify-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleEdit(movie)}
+                        className="hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white focus:outline-none dark:border-gray-600 dark:hover:bg-gray-800"
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleViewDetails(movie)}
+                        className="hover:bg-blue-600 hover:text-white focus:bg-blue-600 focus:text-white focus:outline-none dark:border-gray-600 dark:hover:bg-gray-800"
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </div>
       ) : (
         <div className="flex justify-center items-center h-full">
-          <p className="text-gray-500">Nenhum filme encontrado</p>
+          <p className="text-gray-500 dark:text-gray-400">Nenhum filme encontrado</p>
         </div>
       )}
 
