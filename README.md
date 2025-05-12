@@ -25,4 +25,4 @@ npm run start
 
 O server irá subir na porta http://localhost:3000.
 
-Vale lembrar que você deve configurar .env como o .env.sample
+Vale lembrar que você deve configurar .env como o .env.samp
