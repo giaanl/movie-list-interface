@@ -5,8 +5,10 @@ import { LoginInputs } from "@/types/Inputs";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { setCookie } from "cookies-next";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export default function Login() {
   const router = useRouter();
@@ -19,9 +21,6 @@ export default function Login() {
   const onSubmit: SubmitHandler<LoginInputs> = async (data: any) => {
     try {
       const request: any = await UsersService.login(data);
-
-      console.log(request)
-      toast.success("Login realizado com sucesso!");
 
       setCookie("MOVIE-LIST::TOKEN", request.access_token);
       setCookie("MOVIE-LIST::USER", JSON.stringify(request.user));
@@ -44,7 +43,7 @@ export default function Login() {
           <h1 className="text-center text-2xl font-medium text-black">Login</h1>
           <form className="mt-6" onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
-              <input
+              <Input
                 type="email"
                 placeholder="Digite seu email"
                 className="mt-2 block w-full rounded-md border bg-white px-4 py-2 text-gray-500 focus:border-gray-400 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
@@ -56,7 +55,7 @@ export default function Login() {
               )}
             </div>
             <div className="mb-4">
-              <input
+              <Input
                 type="password"
                 placeholder="Digite sua senha"
                 className="mt-2 block w-full rounded-md border bg-white px-4 py-2 text-gray-500 focus:border-gray-400 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
@@ -68,12 +67,12 @@ export default function Login() {
               )}
             </div>
             <div className="mt-6">
-              <button
+              <Button
                 type="submit"
                 className="w-full transform rounded-sm bg-blue-500 px-4 py-2 tracking-wide text-white transition-colors duration-200 hover:bg-blue-600 focus:bg-blue-600 focus:outline-none"
               >
                 Logar
-              </button>
+              </Button>
             </div>
             <div className="mt-[15px] flex justify-center">
               <p className="text-black">

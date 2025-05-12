@@ -1,7 +1,7 @@
 import { API_BASE_URL } from "@/shared/Config";
 import { RegisterUserDto } from "@/dtos/RegisterUser";
 import { LoginDto } from "@/dtos/LoginDto";
-import { request } from "./requestService";
+import { request } from "./RequestService";
 
 export const UsersService = {
   registerUser: async (params: RegisterUserDto) => {

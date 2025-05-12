@@ -3,9 +3,11 @@
 import { redirect } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
-import { toast } from "react-toastify";
 import { UsersService } from "@/services/UsersService";
 import { SignUpInputs } from "@/types/Inputs";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export default function SignUp() {
   const {
@@ -19,10 +21,15 @@ export default function SignUp() {
     try {
       await UsersService.registerUser(data);
       toast.success("Cadastro realizado com sucesso!");
-      redirect("/login");
+
+      setTimeout(() => {
+        redirect("/login");
+      }, 500);
     } catch (error) {
       console.log(error);
-      toast.error("Erro ao cadastrar usuário!");
+      toast.error(
+        "Ops! Algo deu errado. Verifique os dados e tente novamente."
+      );
     }
   };
 
@@ -44,7 +51,7 @@ export default function SignUp() {
           </h1>
           <form className="mt-6" onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
-              <input
+              <Input
                 type="text"
                 placeholder="Digite seu nome"
                 className="mt-2 block w-full rounded-md border bg-white px-4 py-2 text-gray-500 focus:border-gray-400 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
@@ -56,7 +63,7 @@ export default function SignUp() {
               )}
             </div>
             <div className="mb-4">
-              <input
+              <Input
                 type="email"
                 placeholder="Digite seu email"
                 className="mt-2 block w-full rounded-md border bg-white px-4 py-2 text-gray-500 focus:border-gray-400 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
@@ -69,7 +76,7 @@ export default function SignUp() {
               )}
             </div>
             <div className="mb-4">
-              <input
+              <Input
                 type="password"
                 placeholder="Digite sua senha"
                 className="mt-2 block w-full rounded-md border bg-white px-4 py-2 text-gray-500 focus:border-gray-400 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
@@ -84,7 +91,7 @@ export default function SignUp() {
             </div>
 
             <div className="mb-4">
-              <input
+              <Input
                 type="password"
                 placeholder="Confirme a sua senha"
                 className="mt-2 block w-full rounded-md border bg-white px-4 py-2 text-gray-500 focus:border-gray-400 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-40"
@@ -103,12 +110,12 @@ export default function SignUp() {
             </div>
 
             <div className="mt-6">
-              <button
+              <Button
                 type="submit"
                 className="w-full transform rounded-sm bg-blue-500 px-4 py-2 tracking-wide text-white transition-colors duration-200 hover:bg-blue-600 focus:bg-blue-600 focus:outline-none"
               >
                 Cadastrar-se
-              </button>
+              </Button>
             </div>
             <div className="mt-[15px] flex justify-center">
               <p className="text-black">

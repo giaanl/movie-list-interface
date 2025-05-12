@@ -1,6 +1,7 @@
 import { API_BASE_URL } from "@/shared/Config";
 import { cookies } from "next/headers";
-import { request } from "./requestService";
+import { request } from "./RequestService";
+
 export const AuthService = {
   getToken: async () => {
     const nextCookies = await cookies();
